@@ -74,6 +74,58 @@ public class DespesaDAO implements DespesaDAOInterface{
 	}
 
 	@Override
+	public List<Despesa> consultarDespesasPorProcesso(int numeroProcesso) {
+		//Conexão
+		Connection conn = ConnectionFactory.getConnectionOracle();
+		
+		//Comunicação
+		String sql = "SELECT CD_LANCAMENTO,  CD_DESPESA,  NR_PROCESSO,  DT_DESPESA,  VL_DESPESA,  DS_OBSERVACAO FROM AM_DESPESA " +
+					 "WHERE NR_PROCESSO = ?";
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		Despesa despesa = null;
+		List<Despesa> despesas = new ArrayList<Despesa>();
+		
+		try {
+			
+			ps = conn.prepareStatement(sql);
+			ps.setInt(1, numeroProcesso);
+			
+			
+			rs = ps.executeQuery();
+			
+			while(rs.next()) {
+				
+				despesa = new Despesa();
+				
+				despesa.setCodigoLancamento(rs.getInt("CD_LANCAMENTO"));
+				
+				Processo processo = ProcessoBO.consultarProcesso(rs.getInt("NR_PROCESSO"));
+				despesa.setProcesso(processo);
+				
+				TipoDespesa tipoDespesa = ProcessoBO.consultarTipoDespesa(rs.getInt("CD_DESPESA"));
+				despesa.setTipoDespesa(tipoDespesa);
+				
+				despesa.setDataDespesa(rs.getDate("DT_DESPESA"));
+				
+				despesa.setValorDespesa(rs.getDouble("VL_DESPESA"));
+				
+				despesa.setObservacao(rs.getString("DS_OBSERVACAO"));
+				
+				despesas.add(despesa);
+			}
+			
+		} catch(SQLException e) {
+			e.printStackTrace();
+		} finally {
+			ConnectionFactory.close(conn, ps, rs);
+		}
+		
+		return despesas;
+	}	
+	
+	
+	@Override
 	public Despesa consultarDespesa(int codigoLancamento) {
 
 		//Conexão
@@ -150,4 +202,39 @@ public class DespesaDAO implements DespesaDAOInterface{
 		
 	}
 
+	public double somarDespesaPorProcesso (int codigoProcesso) {
+				
+				//Conexão
+				Connection conn = ConnectionFactory.getConnectionOracle();
+				
+				//Comunicação
+				String sql = "SELECT sum(VL_DESPESA) " +
+							 "FROM AM_DESPESA WHERE NR_PROCESSO = ? " +
+							 "GROUP BY NR_PROCESSO";
+				
+				PreparedStatement ps = null;
+				ResultSet rs = null;
+				Double soma = null;
+				
+				try {
+					
+					ps = conn.prepareStatement(sql);
+					ps.setInt(1, codigoProcesso);
+					
+					rs = ps.executeQuery();
+					
+					if(rs.next()) {
+						
+						 soma = rs.getDouble(1);
+						
+					}
+					
+				} catch(SQLException e) {
+					e.printStackTrace();
+				} finally {
+					ConnectionFactory.close(conn, ps, rs);
+				}
+				
+				return soma;
+	} 
 }

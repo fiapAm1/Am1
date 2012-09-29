@@ -21,6 +21,8 @@ public interface DespesaDAOInterface {
 	 */
 	public List<Despesa> consultarDespesas();
 	
+	public List<Despesa> consultarDespesasPorProcesso(int numeroProcesso );
+	
 	/**
 	 * Busca um lançamento de despesa específico através do código do lançamento fornecido
 	 * @param codigoLancamento
@@ -33,6 +35,14 @@ public interface DespesaDAOInterface {
 	 * @param despesa
 	 */
 	public void lancarDespesa(Despesa despesa);
+	
+	/**
+	 * Somar os valores do Processo
+	 * @param codigoProcesso
+	 * @return
+	 */
+	
+	public double somarDespesaPorProcesso (int codigoProcesso);
 	
 
 }

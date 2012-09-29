@@ -22,11 +22,11 @@ public class LancarDespesasAction extends GenericAction{
 	
 	private static final long serialVersionUID = 6688816828187072391L;
 	
-	private List<Processo> processos;
+	private List<Processo> processos = new ArrayList<Processo>();
 	private Integer numeroProcesso;
 	
-	private List<SelectObject> despesas;
-	private List<TipoDespesa> tiposDespesas;
+	private List<SelectObject> despesas = new ArrayList<SelectObject>();
+	private List<TipoDespesa> tiposDespesas = new ArrayList<TipoDespesa>();
 	private Despesa despesa;
 	
 	
@@ -37,11 +37,12 @@ public class LancarDespesasAction extends GenericAction{
 	 * @since 18/09/2012
 	 */
 	@Action(value="forwardLancarDespesa", results={
-			@Result(location="/pages/despesa/lancarDepesa.jsp", name="lancar"),
+			@Result(location="/pages/despesa/lancarDespesa.jsp", name="lancar"),
 			@Result(location="/erro.jsp", name="erro")
 	})
 	public String forwardLancarDespesa(){
 		if(PaginaEnum.LANCAR_DESPESA.getDescricao().equals(paginaDirecionar)){
+			tiposDespesas = DespesaBO.consultarTiposDespesas();
 			return PaginaEnum.LANCAR_DESPESA.getDescricao();
 		} else {
 			return String.valueOf(PaginaEnum.ERRO.getDescricao());
@@ -122,7 +123,7 @@ public class LancarDespesasAction extends GenericAction{
 		try {
 			processos = new ArrayList<Processo>();
 			processos.add(DespesaBO.consultarProcesso(numeroProcesso));
-			//TODO implementar despesas = DespesaBO.consultarDespesas(numeroProcesso);
+			despesas = convertToListaSelectObject(DespesaBO.consultarDespesasPorProcesso(numeroProcesso));
 		} catch (Exception e) {
 			mensagem = e.getMessage();
 			e.printStackTrace();
@@ -147,6 +148,23 @@ public class LancarDespesasAction extends GenericAction{
 			}
 		}
 		return PaginaEnum.LANCAR_DESPESA.getDescricao();
+	}
+	
+	/**
+	 * Método para passar objetos depesa para uma lista de SelectObject
+	 * @author JDGR²
+	 * @since 29/09/2012
+	 * @return List<SelectObject>
+	 */
+	private List<SelectObject> convertToListaSelectObject(List<Despesa> despesas){
+		List<SelectObject> list = new ArrayList<SelectObject>();
+		for(Despesa despesa : despesas){
+			SelectObject so = new SelectObject();
+			so.setSelected(false);
+			so.setSource(despesa);
+			list.add(so);
+		}
+		return list;
 	}
 	
 	public Despesa getDespesa() {

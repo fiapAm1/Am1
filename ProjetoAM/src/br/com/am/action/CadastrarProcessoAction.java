@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import org.apache.cxf.binding.corba.wsdl.Array;
 import org.apache.struts2.convention.annotation.Action;
 import org.apache.struts2.convention.annotation.Result;
 
@@ -27,16 +28,16 @@ public class CadastrarProcessoAction extends GenericAction{
 	
 	private static final long serialVersionUID = 7470359708896232812L;
 	
-	private List<Advogado> advogados;
-	private List<AdvogadoProcesso> advogadosVinculados;
-	private List<Cliente> clientes;
-	private List<Forum> foruns;
-	private List<Integer> dias;
-	private List<Processo> processos;
-	private List<TipoCausa> tiposCausas;
-	private List<TipoCobranca> tiposCobrancas;
+	private List<Advogado> advogados = new ArrayList<Advogado>();
+	private List<AdvogadoProcesso> advogadosVinculados = new ArrayList<AdvogadoProcesso>();
+	private List<Cliente> clientes = new ArrayList<Cliente>();
+	private List<Forum> foruns = new ArrayList<Forum>();
+	private List<Integer> dias = new ArrayList<Integer>();
+	private List<Processo> processos = new ArrayList<Processo>();
+	private List<TipoCausa> tiposCausas  = new ArrayList<TipoCausa>();
+	private List<TipoCobranca> tiposCobrancas = new ArrayList<TipoCobranca>();
 	
-	private AdvogadoProcesso advogadoProcesso;
+	private AdvogadoProcesso advogadoProcesso = new AdvogadoProcesso();
 	private Processo processo = new Processo();
 	
 	/**
@@ -60,8 +61,8 @@ public class CadastrarProcessoAction extends GenericAction{
 			carregarListas();
 			return PaginaEnum.CADASTRAR_PROCESSO.getDescricao();
 		} else if(PaginaEnum.LISTAR_PROCESSO.getDescricao().equals(paginaDirecionar)){
-			carregarListas();
-			processos = carregarProcessos();
+			//carregarListas();
+			//processos = carregarProcessos();
 			return PaginaEnum.LISTAR_PROCESSO.getDescricao();
 		}else {
 			return String.valueOf(PaginaEnum.ERRO.getDescricao());
@@ -180,7 +181,7 @@ public class CadastrarProcessoAction extends GenericAction{
 	 * @since 18/09/2012
 	 */
 	private List<Advogado> carregarAdvogados(){
-		return ProcessoBO.consultarAdvogados();
+		return new ArrayList<Advogado>();//ProcessoBO.consultarAdvogados();
 	}
 	
 	/**
@@ -200,7 +201,7 @@ public class CadastrarProcessoAction extends GenericAction{
 			a.setDataInicio(new Date(System.currentTimeMillis()));
 			listA.add(a);
 		}
-		return listA;
+		return new ArrayList<AdvogadoProcesso>();//listA;
 	}
 	
 	/**
@@ -210,7 +211,7 @@ public class CadastrarProcessoAction extends GenericAction{
 	 * @since 18/09/2012
 	 */
 	private List<Cliente> carregarClientes(){
-		return ProcessoBO.consultarClientes();
+		return new ArrayList<Cliente>(); //ProcessoBO.consultarClientes();
 	}
 	
 	/**
@@ -220,7 +221,7 @@ public class CadastrarProcessoAction extends GenericAction{
 	 * @since 18/09/2012
 	 */
 	private List<Forum> carregarForuns(){
-		return ProcessoBO.consultarForuns();
+		return new ArrayList<Forum>(); //ProcessoBO.consultarForuns();
 	}
 	
 	/**
@@ -230,7 +231,7 @@ public class CadastrarProcessoAction extends GenericAction{
 	 * @since 18/09/2012
 	 */
 	private List<TipoCausa> carregarTiposCausas(){
-		return ProcessoBO.consultarTiposCausas();
+		return new ArrayList<TipoCausa>();//ProcessoBO.consultarTiposCausas();
 	}
 	
 	/**
@@ -240,7 +241,7 @@ public class CadastrarProcessoAction extends GenericAction{
 	 * @since 18/09/2012
 	 */
 	private List<TipoCobranca> carregarTiposCobrancas(){
-		return ProcessoBO.consultarTiposCobrancas();
+		return new ArrayList<TipoCobranca>();//ProcessoBO.consultarTiposCobrancas();
 	}
 	
 	/**
@@ -250,7 +251,7 @@ public class CadastrarProcessoAction extends GenericAction{
 	 * @since 18/09/2012
 	 */
 	private Processo carregarProcesso(){
-		return ProcessoBO.consultarProcesso(processo.getNumeroProcesso());
+		return new Processo();//ProcessoBO.consultarProcesso(processo.getNumeroProcesso());
 	}
 	
 	/**
@@ -280,7 +281,7 @@ public class CadastrarProcessoAction extends GenericAction{
 //			ps.add(p);
 //		}
 //		return ps;
-		return ProcessoBO.consultarProcessosEmAndamento();
+		return new ArrayList<Processo>();//ProcessoBO.consultarProcessosEmAndamento();
 	}
 	
 	/**

@@ -125,9 +125,7 @@ public class LancarDespesasAction extends GenericAction{
 			processos = new ArrayList<Processo>();
 			processos.add(DespesaBO.consultarProcesso(numeroProcesso));
 			despesas = convertToListaSelectObject(DespesaBO.consultarDespesasPorProcesso(numeroProcesso));
-			for(SelectObject so: despesas){
-				valorTotalDespesas += ((Despesa)so.getSource()).getValorDespesa();
-			}
+			valorTotalDespesas = DespesaBO.somarDespesaPorProcesso(numeroProcesso);
 		} catch (Exception e) {
 			mensagem = e.getMessage();
 			e.printStackTrace();

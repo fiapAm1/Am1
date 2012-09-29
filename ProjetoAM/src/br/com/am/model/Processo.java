@@ -17,10 +17,10 @@ public class Processo implements Serializable{
 	private static final long serialVersionUID = 6619774559878938692L;
 	
 	private int numeroProcesso;
-	private Forum forum;
-	private Cliente cliente;
-	private TipoCausa causa;
-	private TipoCobranca cobranca;
+	private Forum forum = new Forum();
+	private Cliente cliente = new Cliente();
+	private TipoCausa causa = new TipoCausa();
+	private TipoCobranca cobranca = new TipoCobranca();
 	private String processo;
 	private Date dataAbertura;
 	private Date dataFechamento;

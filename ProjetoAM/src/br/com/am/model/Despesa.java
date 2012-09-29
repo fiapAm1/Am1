@@ -17,8 +17,8 @@ public class Despesa implements Serializable{
 	private static final long serialVersionUID = 1963584501144760391L;
 	
 	private int codigoLancamento;
-	private TipoDespesa tipoDespesa;
-	private Processo processo;
+	private TipoDespesa tipoDespesa = new TipoDespesa();
+	private Processo processo = new Processo();
 	private Date dataDespesa;
 	private double valorDespesa;
 	private String observacao;

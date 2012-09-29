@@ -38,9 +38,8 @@
 					<caption>Processo</caption>
 					<thead>
 						<tr>
-							<th width="15%" class="par">Número do Processo</th>
-							<th width="15%" class="par">Descrição do Processo</th>
-							<th width="10%" class="par" >Cliente</th>
+							<th width="10%" class="par">Número do Processo</th>
+							<th width="50%" class="par">Descrição do Processo</th>
 						</tr>
 					</thead>
 					<tbody>
@@ -49,28 +48,32 @@
 							<tr>
 								<td class="par"><s:property value="numeroProcesso"/></td>
 								<td class="par"><s:property value="processo"/></td>
-								<td class="par"><s:property value="cliente.nomePessoa"/></td>
 							</tr>			
 						</s:iterator>
 					</tbody>
 				</table>
 				<table id="table_Audiencias"
 					   class="lawyer-table">
-					<caption>Despesas Filtadas</caption>
+					<caption>Despesas Filtradas</caption>
 					<thead>
 						<tr>
-							<th></th>
+							<th width="1%" ></th>
 							<th width="15%" class="par">Tipo da Despesa</th>
-							<th width="15%" class="par">Valor</th>
+							<th width="10%" class="par">Valor(R$)</th>
 							<th width="10%" class="par" >Data de Lançamento</th>
-							<th width="30%" class="par">Observação</th>
+							<th width="50%" class="par">Observação</th>
 						</tr>
 					</thead>
 					<tbody>
 						<s:iterator id="iterator_Despesas"
 									value="despesas">
 							<tr>
-								<td><input type="radio" name="selected" value="true"/></td>
+								<td>
+									<input id="radio_Registro"
+										   type="radio" 
+										   name="selected" 
+										   value="true"/>
+								</td>
 								<td class="par"><s:property value="source.tipoDespesa.despesa"/></td>
 								<td class="par"><s:property value="source.valorDespesa"/></td>
 								<td class="par"><s:date name="source.dataDespesa" format="dd/MM/yyyy"/></td>
@@ -91,7 +94,7 @@
 								  list="tiposDespesas"
 								  listKey="codigoDespesa"
 								  listValue="despesa"
-								  name="depesa.tipoDespesa.codigoDespesa"
+								  name="despesa.tipoDespesa.codigoDespesa"
 								  required="true"/>
 						
 					</div>
@@ -103,8 +106,8 @@
 					</div>
 				</div>
 				<div class="grid-8-12">
-					<s:label value="Descrição:"
-					 		 for="textarea_Descricao"/>
+					<s:label value="Observação:"
+					 		 for="textarea_Observacao"/>
 					<s:textarea id="textarea_Descricao"
 								name="despesa.observacao"
 								cols="10"

@@ -16,7 +16,7 @@ public class TituloPago implements Serializable{
 
 	private static final long serialVersionUID = 267539667925279026L;
 	
-	private Titulo titulo;
+	private Titulo titulo = new Titulo();
 	private Date dataPagamento;
 	private double valorPago;
 	

@@ -23,6 +23,7 @@ public class LancarDespesasAction extends GenericAction{
 	private static final long serialVersionUID = 6688816828187072391L;
 	
 	private List<Processo> processos = new ArrayList<Processo>();
+	private Double valorTotalDespesas;
 	private Integer numeroProcesso;
 	
 	private List<SelectObject> despesas = new ArrayList<SelectObject>();
@@ -56,7 +57,7 @@ public class LancarDespesasAction extends GenericAction{
 	 * @since 18/09/2012
 	 */
 	@Action(value="cadastrarDespesa", results={
-			@Result(location="/pages/despesa/lancarDepesa.jsp", name="lancar"),
+			@Result(location="/pages/despesa/lancarDespesa.jsp", name="lancar"),
 			@Result(location="/erro.jsp", name="erro")
 	})
 	public String cadastrarDespesa(){
@@ -76,7 +77,7 @@ public class LancarDespesasAction extends GenericAction{
 	 * @since 18/09/2012
 	 */
 	@Action(value="alterarDespesa", results={
-			@Result(location="/pages/despesa/lancarDepesa.jsp", name="lancar"),
+			@Result(location="/pages/despesa/lancarDespesa.jsp", name="lancar"),
 			@Result(location="/erro.jsp", name="erro")
 	})
 	public String alterarDespesa(){
@@ -96,7 +97,7 @@ public class LancarDespesasAction extends GenericAction{
 	 * @since 18/09/2012
 	 */
 	@Action(value="excluirDespesa", results={
-			@Result(location="/pages/despesa/lancarDepesa.jsp", name="lancar"),
+			@Result(location="/pages/despesa/lancarDespesa.jsp", name="lancar"),
 			@Result(location="/erro.jsp", name="erro")
 	})
 	public String excluirDespesa(){
@@ -116,7 +117,7 @@ public class LancarDespesasAction extends GenericAction{
 	 * @since 18/09/2012
 	 */
 	@Action(value="pesquisarProcessoDespesas", results={
-			@Result(location="/pages/despesa/lancarDepesa.jsp", name="lancar"),
+			@Result(location="/pages/despesa/lancarDespesa.jsp", name="lancar"),
 			@Result(location="/erro.jsp", name="erro")
 	})
 	public String pesquisarProcessoDespesas(){
@@ -124,6 +125,9 @@ public class LancarDespesasAction extends GenericAction{
 			processos = new ArrayList<Processo>();
 			processos.add(DespesaBO.consultarProcesso(numeroProcesso));
 			despesas = convertToListaSelectObject(DespesaBO.consultarDespesasPorProcesso(numeroProcesso));
+			for(SelectObject so: despesas){
+				valorTotalDespesas += ((Despesa)so.getSource()).getValorDespesa();
+			}
 		} catch (Exception e) {
 			mensagem = e.getMessage();
 			e.printStackTrace();
@@ -138,7 +142,7 @@ public class LancarDespesasAction extends GenericAction{
 	 * @since 18/09/2012
 	 */
 	@Action(value="localizarDespesa", results={
-			@Result(location="/pages/despesa/lancarDepesa.jsp", name="lancar"),
+			@Result(location="/pages/despesa/lancarDespesa.jsp", name="lancar"),
 			@Result(location="/erro.jsp", name="erro")
 	})
 	public String localizarDespesa(){
@@ -205,4 +209,13 @@ public class LancarDespesasAction extends GenericAction{
 	public void setNumeroProcesso(Integer numeroProcesso) {
 		this.numeroProcesso = numeroProcesso;
 	}
+
+	public Double getValorTotalDespesas() {
+		return valorTotalDespesas;
+	}
+
+	public void setValorTotalDespesas(Double valorTotalDespesas) {
+		this.valorTotalDespesas = valorTotalDespesas;
+	}
+	
 }

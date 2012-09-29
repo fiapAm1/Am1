@@ -17,7 +17,7 @@ public class Titulo implements Serializable {
 	private static final long serialVersionUID = -2718707057596542917L;
 	
 	private int numeroTitulo;
-	private Processo processo;
+	private Processo processo = new Processo();
 	private long agenciaCedente;
 	private Date dataDocumento;
 	private Date dataVencimento;

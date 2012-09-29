@@ -12,8 +12,8 @@ public class AdvogadoProcesso implements Serializable{
 
 	private static final long serialVersionUID = -5438225687142186467L;
 	
-	private Advogado advogado;
-	private Processo processo;
+	private Advogado advogado = new Advogado();
+	private Processo processo = new Processo();
 	private Date dataInicio;
 	
 	public Advogado getAdvogado() {

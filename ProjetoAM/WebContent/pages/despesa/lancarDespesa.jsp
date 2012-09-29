@@ -11,162 +11,70 @@
 <title>Lançamento de Despesas</title>
 </head>
 <body>
-	<s:form id="form_RegistrarPagamento" 
-		  action="registrarPagamento" 
-		  method="post" 
-		  class="formee"
-		  theme="simple">
+	<s:form id="form_LancarDepesas" 
+				action="cadastrarDespesa" 
+				method="post" 
+				class="formee"
+				theme="simple">
 		<fieldset>
-			<legend>Registro de Pagamento por Processo</legend>
-			<div class="grid-3-12">
-				<div class="grid-12-12">
-					<select id="select_Cobranca">
-						<option>Selecione um tipo de cobrança...</option>
-						<option>Mensal</option>
-						<option>Trimestral</option>
-						<option>Semestral</option>
-					</select>
-				</div>
-			</div>
-			<div class="grid-5-12">
-				<div class="grid-3-12">
-					<label for="input_CodigoProcesso">Código processo:</label>
-				</div>
+			<legend>Lançar Despesas</legend>
+			<div class="grid-6-12">
 				<div class="grid-5-12">
-					<input id="input_CodigoProcesso" type="text" />
+					<s:label value="Código do Processo" for="textfield_Codigo" />
 				</div>
-				<div class="grid-2-12">
-					<input id="input_Pesquisar" 
-						   type="button" 
-						   value="Pesquisar" 
-						   onclick="javascript: void(0);"/>
+				<div class="grid-7-12">
+					<s:text id="textfield_Codigo" name="codigoProcesso" />
 				</div>
 			</div>
-			<div class="grid-12-12 lawyer-table">
-				<table id="table_Processos">
-					<caption>Processos Filtados</caption>
+			<div class="grid-6-12" style="text-align: left;">
+				<s:submit id="submit_Pesquisar"
+						  value="Pesquisar"
+						  action="pesquisarAudiencia"/>
+			</div>
+			<div class="grid-12-12">
+				<table id="table_Audiencias"
+					   class="lawyer-table">
+					<caption>Processo</caption>
 					<thead>
 						<tr>
-							<th style="width: 1% ;"></th>
-							<th style="width: 10%; text-align: left;">Código</th>
-							<th style="width: 70% ;">Processo</th>
-							<th style="text-align: left;">Data do Processo</th>
+							<th width="15%" class="par">Número do Processo</th>
+							<th width="15%" class="par">Descrição do Processo</th>
+							<th width="10%" class="par" >Cliente</th>
 						</tr>
 					</thead>
 					<tbody>
-						<tr>
-							<td>
-								<input type="radio" />
-							</td>
-							<td>
-								<span>1</span>
-							</td>
-							<td>
-								<span>Processo 1</span>
-							</td>
-							<td>
-								<span>11/05/2012</span>
-							</td>
-						</tr>
-						<tr>
-							<td>
-								<input type="radio" />
-							</td>
-							<td>
-								<span>2</span>
-							</td>
-							<td>
-								<span>Processo 2</span>
-							</td>
-							<td>
-								<span>12/05/2012</span>
-							</td>
-						</tr>
+						<s:iterator id="iterator_Despesas"
+									value="despesas">
+							<tr>
+								<td class="par"><s:property value="source.tipoDespesa.despesa"/></td>
+								<td class="par"><s:property value="source.valorDespesa"/></td>
+								<td class="par"><s:date name="source.dataDespesa" format="dd/MM/yyyy"/></td>
+								<td class="par"><label title="<s:property value="source.observacao"/>"/></td>
+							</tr>			
+						</s:iterator>
 					</tbody>
 				</table>
-			</div>
-			<div class="grid-4-12">
-				<div class="grid-6-12">
-					<label for="input_Vencimento">Vencimento do Pagamento:</label>
-				</div>
-				<div class="grid-6-12">
-					<input id="input_Vencimento" type="text" />
-				</div>
-				<div class="grid-6-12">
-					<label for="input_Vencimento">Valor do Documento:</label>
-				</div>
-				<div class="grid-6-12">
-					<input id="input_Valor" type="text" />
-				</div>
-			</div>
-			<div class="grid-4-12">
-				<div class="grid-6-12">
-					<label for="input_Taxa">Taxa de Administração:</label>
-				</div>
-				<div class="grid-6-12">
-					<input id="input_Taxa" type="text" />
-				</div>
-				<div class="grid-6-12">
-					<label for="input_Valor">Valor Pago:</label>
-				</div>
-				<div class="grid-6-12">
-					<input id="input_Valor" type="text" />
-				</div>
-			</div>
-			<div class="grid-12-12 lawyer-table">
-				<table id="table_Processos">
-					<caption>Pagamentos deste processo</caption>
+				<table id="table_Audiencias"
+					   class="lawyer-table">
+					<caption>Despesas Filtadas</caption>
 					<thead>
 						<tr>
-							<th style="width: 1%;"></th>
-							<th style="width: 5%;">Código</th>
-							<th style="width: 20%;">Vencimento do Pagamento</th>
-							<th style="width: 30%;">Valor do Documento</th>
-							<th style="width: 30%;">Valor Pago</th>
-							<th style="width: 13%;">Taxa de Administração</th>
+							<th width="15%" class="par">Tipo da Despesa</th>
+							<th width="15%" class="par">Valor</th>
+							<th width="10%" class="par" >Data de Lançamento</th>
+							<th width="30%" class="par">Observação</th>
 						</tr>
 					</thead>
 					<tbody>
-						<tr>
-							<td>
-								<input type="radio" />
-							</td>
-							<td>
-								<span>1</span>
-							</td>
-							<td>
-								<span>11/06/2012</span>
-							</td>
-							<td>
-								<span>R$ 10.000,00</span>
-							</td>
-							<td>
-								<span>R$ 2.500,00</span>
-							</td>
-							<td>
-								<span>6%</span>
-							</td>
-						</tr>
-						<tr>
-							<td>
-								<input type="radio" />
-							</td>
-							<td>
-								<span>2</span>
-							</td>
-							<td>
-								<span>11/07/2012</span>
-							</td>
-							<td>
-								<span>R$ 11.000,00</span>
-							</td>
-							<td>
-								<span>R$ 1.500,00</span>
-							</td>
-							<td>
-								<span>7%</span>
-							</td>
-						</tr>
+						<s:iterator id="iterator_Despesas"
+									value="despesas">
+							<tr>
+								<td class="par"><s:property value="source.tipoDespesa.despesa"/></td>
+								<td class="par"><s:property value="source.valorDespesa"/></td>
+								<td class="par"><s:date name="source.dataDespesa" format="dd/MM/yyyy"/></td>
+								<td class="par"><label title="<s:property value="source.observacao"/>"/></td>
+							</tr>			
+						</s:iterator>
 					</tbody>
 				</table>
 			</div>
@@ -174,18 +82,12 @@
 				<hr></hr>
 			</div>
 			<div class="grid-12-12" style="text-align: right;">
-				<input id="input_Registrar" 
-					   type="button" 
-					   value="Registrar" 
-					   onclick="javascript: void(0);"/>
-				<input id="input_Cancelar" 
-					   type="button" 
-					   value="Cancelar" 
-					   onclick="javascript: void(0);"/>
-				<input id="input_Voltar" 
-					   type="button" 
-					   value="Voltar" 
-					   onclick="javascript: void(0);"/>
+				<s:submit id="submit_Emitir"
+						  action="emitirAudiencia"
+						  value="Emitir Relatório"/>
+				<s:submit id="submit_Voltar"
+						  action="home"
+						  value="Voltar"/>
 			</div>
 		</fieldset>
 	</s:form>

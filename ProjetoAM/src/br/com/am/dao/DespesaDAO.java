@@ -202,6 +202,7 @@ public class DespesaDAO implements DespesaDAOInterface{
 		
 	}
 
+	@Override
 	public double somarDespesaPorProcesso (int codigoProcesso) {
 				
 				//Conexão

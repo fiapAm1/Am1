@@ -1,5 +1,6 @@
 package br.com.am.action;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.struts2.convention.annotation.Action;
@@ -20,6 +21,7 @@ public class LancarDespesasAction extends GenericAction{
 	
 	private static final long serialVersionUID = 6688816828187072391L;
 	private Processo processo;
+	private List<Processo> processos;
 	private List<SelectObject> despesas;
 	private Despesa despesa;
 	
@@ -73,7 +75,8 @@ public class LancarDespesasAction extends GenericAction{
 	})
 	public String pesquisarProcessoDespesas(){
 		try {
-			processo = DespesaBO.consultarProcesso(processo.getNumeroProcesso());
+			processos = new ArrayList<Processo>();
+			processos.add(DespesaBO.consultarProcesso(processo.getNumeroProcesso()));
 			//TODO implementar despesas = DespesaBO.consultarDespesas(processo.getNumeroProcesso());
 		} catch (Exception e) {
 			mensagem = e.getMessage();
@@ -101,12 +104,6 @@ public class LancarDespesasAction extends GenericAction{
 		return PaginaEnum.LANCAR_DESPESA.getDescricao();
 	}
 	
-	public Processo getProcesso() {
-		return processo;
-	}
-	public void setProcesso(Processo processo) {
-		this.processo = processo;
-	}
 	public Despesa getDespesa() {
 		return despesa;
 	}
@@ -120,5 +117,21 @@ public class LancarDespesasAction extends GenericAction{
 
 	public void setDespesas(List<SelectObject> despesas) {
 		this.despesas = despesas;
-	}	
+	}
+
+	public Processo getProcesso() {
+		return processo;
+	}
+
+	public void setProcesso(Processo processo) {
+		this.processo = processo;
+	}
+
+	public List<Processo> getProcessos() {
+		return processos;
+	}
+
+	public void setProcessos(List<Processo> processos) {
+		this.processos = processos;
+	}
 }

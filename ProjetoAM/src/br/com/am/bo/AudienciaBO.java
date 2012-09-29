@@ -8,7 +8,7 @@ import br.com.am.model.RelatorioAudiencia;
 
 /**
  * Bussines Object Audiência. Contém os métodos que vão ser usados, apenas para a funcionalidade de Emitir Relátorio de Audiências por Processo.
- * @author Ricardo
+ * @author JDGR2
  * @since 26/09/2012
  */
 public class AudienciaBO extends GenericBO{

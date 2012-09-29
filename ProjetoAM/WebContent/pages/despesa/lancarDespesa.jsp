@@ -23,13 +23,13 @@
 					<s:label value="Código do Processo" for="textfield_Codigo" />
 				</div>
 				<div class="grid-7-12">
-					<s:text id="textfield_Codigo" name="codigoProcesso" />
+					<s:text id="textfield_Codigo" name="numeroProcesso" />
 				</div>
 			</div>
 			<div class="grid-6-12" style="text-align: left;">
 				<s:submit id="submit_Pesquisar"
 						  value="Pesquisar"
-						  action="pesquisarAudiencia"/>
+						  action="pesquisarProcessoDespesas"/>
 			</div>
 			<div class="grid-12-12">
 				<table id="table_Audiencias"
@@ -43,13 +43,12 @@
 						</tr>
 					</thead>
 					<tbody>
-						<s:iterator id="iterator_Despesas"
-									value="despesas">
+						<s:iterator id="iterator_Processo"
+									value="processos">
 							<tr>
-								<td class="par"><s:property value="source.tipoDespesa.despesa"/></td>
-								<td class="par"><s:property value="source.valorDespesa"/></td>
-								<td class="par"><s:date name="source.dataDespesa" format="dd/MM/yyyy"/></td>
-								<td class="par"><label title="<s:property value="source.observacao"/>"/></td>
+								<td class="par"><s:property value="numeroProcesso"/></td>
+								<td class="par"><s:property value="processo"/></td>
+								<td class="par"><s:property value="cliente.nomePessoa"/></td>
 							</tr>			
 						</s:iterator>
 					</tbody>
@@ -59,6 +58,7 @@
 					<caption>Despesas Filtadas</caption>
 					<thead>
 						<tr>
+							<th></th>
 							<th width="15%" class="par">Tipo da Despesa</th>
 							<th width="15%" class="par">Valor</th>
 							<th width="10%" class="par" >Data de Lançamento</th>
@@ -69,6 +69,7 @@
 						<s:iterator id="iterator_Despesas"
 									value="despesas">
 							<tr>
+								<td><input type="radio" name="selected" value="true"/></td>
 								<td class="par"><s:property value="source.tipoDespesa.despesa"/></td>
 								<td class="par"><s:property value="source.valorDespesa"/></td>
 								<td class="par"><s:date name="source.dataDespesa" format="dd/MM/yyyy"/></td>
@@ -77,14 +78,47 @@
 						</s:iterator>
 					</tbody>
 				</table>
+				<div class="grid-12-12">
+					<div class="grid-6-12">
+						<s:label value="Selecione um Tipo de Despesa:"
+								 for="select_TipoDespesa"/>
+						<s:select id="select_TipoDespesa"
+								  headerKey="0"
+								  headerValue="Selecione"
+								  list="tiposDespesas"
+								  listKey="codigoDespesa"
+								  listValue="despesa"
+								  name="depesa.tipoDespesa.codigoDespesa"
+								  required="true"/>
+						
+					</div>
+					<div class="grid-2-12">
+						<s:label value="Código do Processo" for="textfield_Codigo" />
+					</div>
+					<div class="grid-4-12">
+						<s:text id="textfield_Codigo" name="numeroProcesso" />
+					</div>
+				</div>
+				<div class="grid-12-12">
+					<s:label value="Descrição:"
+					 		 for="textarea_Descricao"/>
+					<s:textarea id="textarea_Descricao"
+								name="despesa.observacao"/>
+				</div>
 			</div>
 			<div class="grid-12-12">
 				<hr></hr>
 			</div>
 			<div class="grid-12-12" style="text-align: right;">
-				<s:submit id="submit_Emitir"
-						  action="emitirAudiencia"
-						  value="Emitir Relatório"/>
+				<s:submit id="submit_Incluir"
+						  action="cadastrarDespesa"
+						  value="Incluir"/>
+				<s:submit id="submit_Alterar"
+						  action="alterarDespesa"
+						  value="Alterar"/>
+				<s:submit id="submit_Excluir"
+						  action="excluirDespesa"
+						  value="Excluir"/>
 				<s:submit id="submit_Voltar"
 						  action="home"
 						  value="Voltar"/>

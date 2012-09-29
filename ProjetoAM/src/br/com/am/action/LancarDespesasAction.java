@@ -11,6 +11,7 @@ import br.com.am.bo.DespesaBO;
 import br.com.am.model.Despesa;
 import br.com.am.model.Processo;
 import br.com.am.model.SelectObject;
+import br.com.am.model.TipoDespesa;
 
 /**
  * Class Action LancarDespesas
@@ -20,10 +21,14 @@ import br.com.am.model.SelectObject;
 public class LancarDespesasAction extends GenericAction{
 	
 	private static final long serialVersionUID = 6688816828187072391L;
-	private Processo processo;
+	
 	private List<Processo> processos;
+	private Integer numeroProcesso;
+	
 	private List<SelectObject> despesas;
+	private List<TipoDespesa> tiposDespesas;
 	private Despesa despesa;
+	
 	
 	/**
 	 * Action que direciona para as páginas da funcionalidade de lançar despesas.
@@ -64,6 +69,46 @@ public class LancarDespesasAction extends GenericAction{
 	}
 	
 	/**
+	 * Action que altera despesa.
+	 * @author JDGR²
+	 * @return String
+	 * @since 18/09/2012
+	 */
+	@Action(value="alterarDespesa", results={
+			@Result(location="/pages/despesa/lancarDepesa.jsp", name="lancar"),
+			@Result(location="/erro.jsp", name="erro")
+	})
+	public String alterarDespesa(){
+		try {
+			//TODO implementar
+		} catch (Exception e) {
+			mensagem = e.getMessage();
+			e.printStackTrace();
+		}
+		return PaginaEnum.LANCAR_DESPESA.getDescricao();
+	}
+	
+	/**
+	 * Action que excluir despesas.
+	 * @author JDGR²
+	 * @return String
+	 * @since 18/09/2012
+	 */
+	@Action(value="excluirDespesa", results={
+			@Result(location="/pages/despesa/lancarDepesa.jsp", name="lancar"),
+			@Result(location="/erro.jsp", name="erro")
+	})
+	public String excluirDespesa(){
+		try {
+			//TODO implementar
+		} catch (Exception e) {
+			mensagem = e.getMessage();
+			e.printStackTrace();
+		}
+		return PaginaEnum.LANCAR_DESPESA.getDescricao();
+	}
+	
+	/**
 	 * Action que pesquisa o processo.
 	 * @author JDGR²
 	 * @return String
@@ -76,8 +121,8 @@ public class LancarDespesasAction extends GenericAction{
 	public String pesquisarProcessoDespesas(){
 		try {
 			processos = new ArrayList<Processo>();
-			processos.add(DespesaBO.consultarProcesso(processo.getNumeroProcesso()));
-			//TODO implementar despesas = DespesaBO.consultarDespesas(processo.getNumeroProcesso());
+			processos.add(DespesaBO.consultarProcesso(numeroProcesso));
+			//TODO implementar despesas = DespesaBO.consultarDespesas(numeroProcesso);
 		} catch (Exception e) {
 			mensagem = e.getMessage();
 			e.printStackTrace();
@@ -119,19 +164,27 @@ public class LancarDespesasAction extends GenericAction{
 		this.despesas = despesas;
 	}
 
-	public Processo getProcesso() {
-		return processo;
-	}
-
-	public void setProcesso(Processo processo) {
-		this.processo = processo;
-	}
-
 	public List<Processo> getProcessos() {
 		return processos;
 	}
 
 	public void setProcessos(List<Processo> processos) {
 		this.processos = processos;
+	}
+
+	public List<TipoDespesa> getTiposDespesas() {
+		return tiposDespesas;
+	}
+
+	public void setTiposDespesas(List<TipoDespesa> tiposDespesas) {
+		this.tiposDespesas = tiposDespesas;
+	}
+
+	public Integer getNumeroProcesso() {
+		return numeroProcesso;
+	}
+
+	public void setNumeroProcesso(Integer numeroProcesso) {
+		this.numeroProcesso = numeroProcesso;
 	}
 }

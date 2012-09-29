@@ -42,7 +42,7 @@ public class CadastrarProcessoAction extends GenericAction{
 	private Processo processo = new Processo();
 	
 	/**
-	 * Action que direcina para as páginas da funcionalidade de cadastro de processo.
+	 * Action que direciona para as páginas da funcionalidade de cadastro de processo.
 	 * @author Ricardo
 	 * @return String
 	 * @since 18/09/2012

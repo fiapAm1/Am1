@@ -1,13 +1,13 @@
 package br.com.am.action;
 
-import javax.servlet.http.HttpSession;
-
-import org.apache.struts2.ServletActionContext;
+import java.util.Map;
 import org.apache.struts2.convention.annotation.Action;
 import org.apache.struts2.convention.annotation.Result;
+import org.apache.struts2.interceptor.SessionAware;
 
 import br.com.am.action.enuns.PaginaEnum;
 
+import com.opensymphony.xwork2.ActionContext;
 import com.opensymphony.xwork2.ActionSupport;
 
 /**
@@ -15,11 +15,11 @@ import com.opensymphony.xwork2.ActionSupport;
  * @author Ricardo
  * @since 18/09/2012
  */
-public class GenericAction extends ActionSupport{
+public class GenericAction extends ActionSupport implements SessionAware{
 
 	private static final long serialVersionUID = -3767734831406044587L;
 	
-	private HttpSession session;
+	private Map<String, Object> session;
 	
 	protected String paginaDirecionar;
 	protected String mensagem;
@@ -54,11 +54,16 @@ public class GenericAction extends ActionSupport{
 	public void setMensagem(String mensagem) {
 		this.mensagem = mensagem;
 	}
-	public HttpSession getSession() {
-		session = ServletActionContext.getRequest().getSession(false);
-		return session;
-	}
-	public void setSession(HttpSession session) {
+
+	@Override
+	public void setSession(Map<String, Object> session) {
 		this.session = session;
+	}
+
+	public Map<String, Object> getSession() {
+		if(session == null){
+			session = ActionContext.getContext().getSession();
+		}
+		return session;
 	}
 }

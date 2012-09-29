@@ -14,6 +14,7 @@ public enum PaginaEnum {
 	ERRO("erro"),
 	EXIBIR_PROCESSO("exibir"),
 	HOME("home"),
+	LANCAR_DESPESA("lancar"),
 	LISTAR_PROCESSO("listar"),
 	REGISTRAR_PAGAMENTO("registrarPagamento");
 	

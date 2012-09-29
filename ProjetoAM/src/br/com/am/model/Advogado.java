@@ -3,7 +3,7 @@ package br.com.am.model;
 import java.io.Serializable;
 
 /**
- * @author Rodrigo Joubert<br>
+ * @author JDGR2<br>
  * Turma:  1TDSR<br>
  * Ano:    2012<br>
  *

@@ -1,0 +1,73 @@
+/**
+ * 
+ */
+package br.com.am.dao;
+
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
+
+import br.com.am.bo.ProcessoBO;
+import br.com.am.dao.connections.ConnectionFactory;
+import br.com.am.dao.interfaces.TituloDAOInterface;
+import br.com.am.model.Processo;
+import br.com.am.model.Titulo;
+
+
+/**
+ * @author Rodrigo Joubert<br>
+ * Turma:  1TDSR<br>
+ * Ano:    2012<br>
+ *
+ */
+public class TituloDAO implements TituloDAOInterface {
+
+	@Override
+	public List<Titulo> consultarTitulos(int numeroProcesso) {
+		
+		//Conexão
+		Connection conn = ConnectionFactory.getConnectionOracle();
+		
+		//Comunicação
+		String sql = "SELECT NR_TITULO, NR_PROCESSO, NR_AGENCIA_CEDENTE, DT_DOCUMENTO, DT_VENCIMENTO, VL_DOCUMENTO " +
+				     "FROM AM_TITULO WHERE NR_PROCESSO = ?";
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		Titulo titulo = null;
+		List<Titulo> titulos = new ArrayList<Titulo>();
+		
+		try {
+			ps = conn.prepareStatement(sql);
+			ps.setInt(1, numeroProcesso);
+			
+			rs = ps.executeQuery();
+			
+			while(rs.next()) {
+				
+				titulo = new Titulo();
+				titulo.setNumeroTitulo(rs.getInt("NR_TITULO"));
+				
+				Processo processo = ProcessoBO.consultarProcesso(rs.getInt("NR_PROCESSO"));
+				titulo.setProcesso(processo);
+				
+				titulo.setAgenciaCedente(rs.getLong("NR_AGENCIA_CEDENTE"));
+				titulo.setDataDocumento(rs.getDate("DT_DOCUMENTO"));
+				titulo.setDataVencimento(rs.getDate("DT_VENCIMENTO"));
+				titulo.setValorDocumento(rs.getDouble("VL_DOCUMENTO"));
+				
+				titulos.add(titulo);
+			}
+			
+		} catch(SQLException e) {
+			e.printStackTrace();
+		} finally {
+			ConnectionFactory.close(conn, ps, rs);
+		}
+		
+		return titulos;
+	}
+
+}

@@ -64,6 +64,17 @@
 			Registrar Pagamento
 		</s:a>
 	</div>
+	<br></br>
+	<div>
+		<s:url var="url_LancarDespesas" 
+			   value="forwardLancarDespesa">
+			<s:param name="paginaDirecionar">lancar</s:param>
+		</s:url>
+		
+		<s:a href="%{url_LancarDespesas}">
+			Lançar Despesas
+		</s:a>
+	</div>
 </s:form>
 </body>
 </html>

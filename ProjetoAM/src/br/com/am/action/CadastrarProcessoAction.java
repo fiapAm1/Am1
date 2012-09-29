@@ -4,8 +4,6 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import javax.servlet.http.HttpSession;
-
 import org.apache.struts2.convention.annotation.Action;
 import org.apache.struts2.convention.annotation.Result;
 
@@ -157,7 +155,6 @@ public class CadastrarProcessoAction extends GenericAction{
 	 * @since 23/09/2012
 	 */
 	private void guardarValoresSession(){
-		HttpSession session = getSession();
 		//TODO guarda objetos na sessão.
 	}
 	

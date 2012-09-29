@@ -27,18 +27,6 @@ public class ProcessoBO extends GenericBO{
 	}
 	
 	/**
-	 * Método que retorna um processo a partir do número passado como paramentro.
-	 * @author Rodrigo
-	 * @since 26/09/2012
-	 * @param numeroProcesso
-	 * @return Processo
-	 */
-	public static Processo consultarProcesso(int numeroProcesso) {
-		ProcessoDAOInterface processoDAO = DAOFactory.getDAOFactory(DAOFactory.ORACLE).getProcessoDAO();
-		return processoDAO.consultarProcesso(numeroProcesso);
-	}
-	
-	/**
 	 * Método que realiza o cadastro de um processo.
 	 * @author Rodrigo
 	 * @since 26/09/2012

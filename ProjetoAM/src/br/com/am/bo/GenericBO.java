@@ -6,6 +6,7 @@ import br.com.am.dao.factory.DAOFactory;
 import br.com.am.dao.interfaces.AdvogadoDAOInterface;
 import br.com.am.dao.interfaces.ClienteDAOInterface;
 import br.com.am.dao.interfaces.ForumDAOInterface;
+import br.com.am.dao.interfaces.ProcessoDAOInterface;
 import br.com.am.dao.interfaces.TarefaDAOInterface;
 import br.com.am.dao.interfaces.TipoCausaDAOInterface;
 import br.com.am.dao.interfaces.TipoCobrancaDAOInterface;
@@ -13,6 +14,7 @@ import br.com.am.dao.interfaces.TipoDespesaDAOInterface;
 import br.com.am.model.Advogado;
 import br.com.am.model.Cliente;
 import br.com.am.model.Forum;
+import br.com.am.model.Processo;
 import br.com.am.model.Tarefa;
 import br.com.am.model.TipoCausa;
 import br.com.am.model.TipoCobranca;
@@ -176,5 +178,17 @@ public class GenericBO {
 	public static List<Tarefa> consultarTarefas() {
 		TarefaDAOInterface tarefaDAO = DAOFactory.getDAOFactory(DAOFactory.ORACLE).getTarefaDAO();
 		return tarefaDAO.consultarTarefas();
+	}
+	
+	/**
+	 * Método que retorna um processo a partir do número passado como paramentro.
+	 * @author Rodrigo
+	 * @since 26/09/2012
+	 * @param numeroProcesso
+	 * @return Processo
+	 */
+	public static Processo consultarProcesso(int numeroProcesso) {
+		ProcessoDAOInterface processoDAO = DAOFactory.getDAOFactory(DAOFactory.ORACLE).getProcessoDAO();
+		return processoDAO.consultarProcesso(numeroProcesso);
 	}
 }

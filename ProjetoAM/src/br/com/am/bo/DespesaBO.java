@@ -45,5 +45,15 @@ public class DespesaBO extends GenericBO{
 	public static void lancarDespesa(Despesa despesa) {
 		DespesaDAOInterface despesaDAO = DAOFactory.getDAOFactory(DAOFactory.ORACLE).getDespesaDAO();
 		despesaDAO.lancarDespesa(despesa);
-	}	
+	}
+	
+	public static List<Despesa> consultarDespesasPorProcesso(int codigoProcesso) {
+		DespesaDAOInterface despesaDAO = DAOFactory.getDAOFactory(DAOFactory.ORACLE).getDespesaDAO();
+		return despesaDAO.consultarDespesasPorProcesso(codigoProcesso);
+	}
+	
+	public double somarDespesaPorProcesso (int codigoProcesso) {
+		DespesaDAOInterface despesaDAO = DAOFactory.getDAOFactory(DAOFactory.ORACLE).getDespesaDAO();
+		return despesaDAO.somarDespesaPorProcesso(codigoProcesso);
+	}
 }

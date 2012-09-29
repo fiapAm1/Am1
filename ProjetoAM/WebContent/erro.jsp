@@ -8,6 +8,6 @@
 <title>Ocorreu um erro</title>
 </head>
 <body>
-	<h1>Um Erro Inesperado Ocorreu!</h1>
+	<h1>Um Erro Inesperado Ocorreu aqui!</h1>
 </body>
 </html>

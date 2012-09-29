@@ -71,4 +71,28 @@ public class DespesaBO extends GenericBO{
 		DespesaDAOInterface despesaDAO = DAOFactory.getDAOFactory(DAOFactory.ORACLE).getDespesaDAO();
 		return despesaDAO.somarDespesaPorProcesso(codigoProcesso);
 	}
+	
+	/**
+	 * Médoto de atualizar despesa
+	 * @author JGDR2
+	 * @since 29/09/2012
+	 * @param despesa
+	 */
+	
+	public static void atualizarDespesa (Despesa despesa) {
+		DespesaDAOInterface despesaDAO = DAOFactory.getDAOFactory(DAOFactory.ORACLE).getDespesaDAO();
+		despesaDAO.atualizarDespesa(despesa);
+	}
+	
+	/**
+	 * Método para atualizar a despesa
+	 * @author JGDR2
+	 * @since 29/09/2012
+	 * @param codigoDespesa
+	 */
+	
+	public static void deletarDespesa (int codigoDespesa) {
+		DespesaDAOInterface despesaDAO = DAOFactory.getDAOFactory(DAOFactory.ORACLE).getDespesaDAO();
+		despesaDAO.deletarDespesa(codigoDespesa);
+	}
 }

@@ -50,5 +50,19 @@ public interface DespesaDAOInterface {
 	
 	public double somarDespesaPorProcesso (int codigoProcesso);
 	
+	/**
+	 * Atualizar a despesa
+	 * @param despesa
+	 */
+		
+	public void atualizarDespesa (Despesa despesa);
+	
+	/**
+	 * Deletar a despesa
+	 * @param codigoDespesa
+	 */
+	
+	public void deletarDespesa (int codigoDespesa); 
+	
 
 }

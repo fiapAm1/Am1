@@ -238,4 +238,57 @@ public class DespesaDAO implements DespesaDAOInterface{
 				
 				return soma;
 	} 
+	
+	@Override
+	public void atualizarDespesa (Despesa despesa)  {
+				
+				//Conexão
+				Connection conn = ConnectionFactory.getConnectionOracle();
+				
+				//Comunicação
+				String sql = "UPDATE AM_DESPESA SET VL_DESPESA = ?, DS_OBSERVACAO = ? WHERE CD_LANCAMENTO = ? ";
+				
+				PreparedStatement ps = null;
+				
+				try {
+					
+					ps = conn.prepareStatement(sql);
+					ps.setDouble(1, despesa.getValorDespesa());
+					ps.setString(2, despesa.getObservacao());
+					ps.setInt(3, despesa.getCodigoLancamento());
+					
+					ps.executeQuery();
+					
+						
+					
+				} catch(SQLException e) {
+					e.printStackTrace();
+				} finally {
+					ConnectionFactory.close(conn, ps);
+				}
+				
+	} 
+	
+	public void deletarDespesa (int codigoDespesa) {
+		
+		//Conexão
+		Connection conn = ConnectionFactory.getConnectionOracle();
+
+		String sql = "DELETE FROM AM_DESPESA WHERE CD_LANCAMENTO = ?";
+		PreparedStatement ps = null;
+		
+		try {
+		
+			ps = conn.prepareStatement(sql);
+			ps.setInt(1, codigoDespesa);
+			
+			ps.executeQuery();
+		
+		} catch(SQLException e) {
+			e.printStackTrace();
+		} finally {
+			ConnectionFactory.close(conn, ps);
+		}
+	}
+	
 }

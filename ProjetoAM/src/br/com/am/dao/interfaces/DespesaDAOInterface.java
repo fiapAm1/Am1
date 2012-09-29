@@ -33,5 +33,7 @@ public interface DespesaDAOInterface {
 	 * @param despesa
 	 */
 	public void lancarDespesa(Despesa despesa);
+	
+	public int somarDespesaPorProcesso (int numeroProcesso);
 
 }

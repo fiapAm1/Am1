@@ -22,7 +22,7 @@ public interface DespesaDAOInterface {
 	public List<Despesa> consultarDespesas();
 	
 	/**
-	 *  Listar Processos válidos
+	 *  Listar Processos válidos por despesa
 	 * @param numeroProcesso
 	 * @return
 	 */

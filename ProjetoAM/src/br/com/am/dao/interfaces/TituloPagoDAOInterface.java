@@ -5,6 +5,7 @@ package br.com.am.dao.interfaces;
 
 import java.util.List;
 
+import br.com.am.model.Titulo;
 import br.com.am.model.TituloPago;
 
 /**
@@ -15,7 +16,7 @@ import br.com.am.model.TituloPago;
  */
 public interface TituloPagoDAOInterface {
 	
-	public void registrarTituloPago(TituloPago tituloPago);
+	public void registrarTituloPago(Titulo titulo);
 	
 	public List<TituloPago> consultarTitulosPagosPorProcesso(int numeroProcesso);
 

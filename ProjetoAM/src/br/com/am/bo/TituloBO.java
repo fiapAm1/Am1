@@ -62,4 +62,16 @@ public class TituloBO extends GenericBO{
 		TituloPagoDAOInterface tituloPagoDAO = DAOFactory.getDAOFactory(DAOFactory.ORACLE).getTituloPagoDAO();
 		return tituloPagoDAO.consultarTitulosPagosPorProcesso(numeroProcesso);
 	}
+	
+	/**
+	 * Método que insere um titulo pago na tabela de titulos pagos, a partir de um titulo .
+	 * @author Rodrigo
+	 * @since 26/09/2012
+	 * @param titulo
+	 * @return
+	 */
+	public static void registrarTituloPago(Titulo titulo) {
+		TituloPagoDAOInterface tituloPagoDAO = DAOFactory.getDAOFactory(DAOFactory.ORACLE).getTituloPagoDAO();
+		tituloPagoDAO.registrarTituloPago(titulo);
+	}
 }

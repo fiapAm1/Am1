@@ -5,21 +5,42 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
-import br.com.am.bo.ProcessoBO;
 import br.com.am.bo.TituloBO;
 import br.com.am.dao.connections.ConnectionFactory;
 import br.com.am.dao.interfaces.TituloPagoDAOInterface;
-import br.com.am.model.Processo;
 import br.com.am.model.Titulo;
 import br.com.am.model.TituloPago;
 
 public class TituloPagoDAO implements TituloPagoDAOInterface{
 
 	@Override
-	public void registrarTituloPago(TituloPago tituloPago) {
-		// TODO Auto-generated method stub
+	public void registrarTituloPago(Titulo titulo) {
+		
+		//Conexão
+		Connection conn = ConnectionFactory.getConnectionOracle();
+		
+		//Comunicação
+		String sql = "INSERT INTO AM_TITULO_PAGO(NR_TITULO, DT_PAGAMENTO, VL_PAGO) VALUES " +
+				     "(?,?,?) ";
+		
+		PreparedStatement ps = null;
+		
+		try {
+			ps = conn.prepareStatement(sql);
+			ps.setInt(1, titulo.getNumeroTitulo());
+			ps.setDate(2, new java.sql.Date(new Date().getTime()));
+			ps.setDouble(3, titulo.getValorDocumento());
+			
+			ps.execute();
+			
+		} catch(SQLException e) {
+			e.printStackTrace();
+		} finally {
+			ConnectionFactory.close(conn, ps, rs);
+		}
 		
 	}
 

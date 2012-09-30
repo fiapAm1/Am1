@@ -18,6 +18,7 @@ public class AdvogadoDAO implements AdvogadoDAOInterface{
 	public List<Advogado> consultarAdvogados() {
 
 		//Conexão
+		//xx
 		Connection conn = ConnectionFactory.getConnectionOracle();
 		
 		//Comunicação

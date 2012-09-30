@@ -40,7 +40,6 @@
 						<tr>
 							<th width="10%" class="par">Número do Processo</th>
 							<th width="50%" class="par">Descrição do Processo</th>
-							<th width="5%"  class="par">Valor das Despesas</th>
 						</tr>
 					</thead>
 					<tbody>
@@ -49,7 +48,6 @@
 							<tr>
 								<td class="par"><s:property value="numeroProcesso"/></td>
 								<td class="par"><s:property value="processo"/></td>
-								<td class="par"><s:property value="valorSOma"/></td>
 							</tr>			
 						</s:iterator>
 					</tbody>
@@ -73,13 +71,14 @@
 								<td>
 									<input id="radio_Registro"
 										   type="radio" 
-										   name="selected" 
-										   value="true"/>
+										   name="codigoLancamento" 
+										   value="${codigoLancamento}"
+										   onclick="javascript: localizar();"/>
 								</td>
-								<td class="par"><s:property value="source.tipoDespesa.despesa"/></td>
-								<td class="par"><s:property value="source.valorDespesa"/></td>
-								<td class="par"><s:date name="source.dataDespesa" format="dd/MM/yyyy"/></td>
-								<td class="par"><label title="<s:property value="source.observacao"/>"/></td>
+								<td class="par"><s:property value="tipoDespesa.despesa"/></td>
+								<td class="par"><s:property value="valorDespesa"/></td>
+								<td class="par"><s:date name="dataDespesa" format="dd/MM/yyyy"/></td>
+								<td class="par"><label title="<s:property value="observacao"/>"/></td>
 							</tr>			
 						</s:iterator>
 					</tbody>

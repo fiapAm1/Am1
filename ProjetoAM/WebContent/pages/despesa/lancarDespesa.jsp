@@ -40,6 +40,7 @@
 						<tr>
 							<th width="10%" class="par">Número do Processo</th>
 							<th width="50%" class="par">Descrição do Processo</th>
+							<th width="5%"  class="par">Valor das Despesas</th>
 						</tr>
 					</thead>
 					<tbody>
@@ -48,6 +49,7 @@
 							<tr>
 								<td class="par"><s:property value="numeroProcesso"/></td>
 								<td class="par"><s:property value="processo"/></td>
+								<td class="par"><s:property value="valorSOma"/></td>
 							</tr>			
 						</s:iterator>
 					</tbody>

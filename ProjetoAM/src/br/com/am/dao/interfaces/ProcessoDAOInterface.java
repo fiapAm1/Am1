@@ -25,7 +25,6 @@ public interface ProcessoDAOInterface {
 	 */
 	public Processo consultarProcesso(int numeroProcesso);
 	
-	
 	/**
 	 * Insere um novo processo na tabela AM_PROCESSO
 	 * @param processo

@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.apache.struts2.convention.annotation.Action;
+import org.apache.struts2.convention.annotation.ParentPackage;
 import org.apache.struts2.convention.annotation.Result;
 import org.apache.struts2.interceptor.SessionAware;
 
@@ -17,11 +18,12 @@ import com.opensymphony.xwork2.ActionSupport;
  * @author Ricardo
  * @since 18/09/2012
  */
+@ParentPackage("json-default")
 public class GenericAction extends ActionSupport implements SessionAware{
 
 	private static final long serialVersionUID = -3767734831406044587L;
 	
-	private Map<String, Object> session = new HashMap<String, Object>();
+	protected Map<String, Object> session = new HashMap<String, Object>();
 	
 	protected String paginaDirecionar;
 	protected String mensagem;

@@ -39,7 +39,7 @@ public class TituloPagoDAO implements TituloPagoDAOInterface{
 		} catch(SQLException e) {
 			e.printStackTrace();
 		} finally {
-			ConnectionFactory.close(conn, ps, rs);
+			ConnectionFactory.close(conn, ps);
 		}
 		
 	}

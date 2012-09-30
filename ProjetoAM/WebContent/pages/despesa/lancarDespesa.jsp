@@ -108,7 +108,7 @@
 				<div class="grid-8-12">
 					<s:label value="Observação:"
 					 		 for="textarea_Observacao"/>
-					<s:textarea id="textarea_Descricao"
+					<s:textarea id="textarea_Observacao"
 								name="despesa.observacao"
 								cols="10"
 								rows="25"/>

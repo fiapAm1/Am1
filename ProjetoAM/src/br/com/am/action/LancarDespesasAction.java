@@ -1,10 +1,13 @@
 package br.com.am.action;
 
+import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.struts2.convention.annotation.Action;
 import org.apache.struts2.convention.annotation.Result;
+
+import com.opensymphony.xwork2.ActionContext;
 
 import br.com.am.action.enuns.PaginaEnum;
 import br.com.am.bo.DespesaBO;
@@ -139,11 +142,8 @@ public class LancarDespesasAction extends GenericAction{
 	 * @return String
 	 * @since 18/09/2012
 	 */
-	@Action(value="localizarDespesa", results={
-			@Result(location="/pages/despesa/lancarDespesa.jsp", name="lancar"),
-			@Result(location="/erro.jsp", name="erro")
-	})
 	public String localizarDespesa(){
+		PrintWriter pw = 
 		for(SelectObject so: despesas){
 			if(so.getSelected()){
 				despesa = (Despesa) so.getSource();

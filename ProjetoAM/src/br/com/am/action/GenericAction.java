@@ -1,6 +1,8 @@
 package br.com.am.action;
 
+import java.util.HashMap;
 import java.util.Map;
+
 import org.apache.struts2.convention.annotation.Action;
 import org.apache.struts2.convention.annotation.Result;
 import org.apache.struts2.interceptor.SessionAware;
@@ -19,7 +21,7 @@ public class GenericAction extends ActionSupport implements SessionAware{
 
 	private static final long serialVersionUID = -3767734831406044587L;
 	
-	private Map<String, Object> session;
+	private Map<String, Object> session = new HashMap<String, Object>();
 	
 	protected String paginaDirecionar;
 	protected String mensagem;

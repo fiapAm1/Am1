@@ -274,7 +274,7 @@ public class DespesaDAO implements DespesaDAOInterface{
 		//Conexão
 		Connection conn = ConnectionFactory.getConnectionOracle();
 
-		String sql = "DELETE FROM AM_DESPESA WHERE CD_LANCAMENTO = ?";
+		String sql = "DELETE FROM AM_DESPESA WHERE CD_LANCAMENTO = ? ";
 		PreparedStatement ps = null;
 		
 		try {

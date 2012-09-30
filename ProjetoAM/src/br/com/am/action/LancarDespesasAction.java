@@ -131,6 +131,7 @@ public class LancarDespesasAction extends GenericAction{
 			processos.add(DespesaBO.consultarProcesso(numeroProcesso));
 			despesas = DespesaBO.consultarDespesasPorProcesso(numeroProcesso);
 			valorTotalDespesas = DespesaBO.somarDespesaPorProcesso(numeroProcesso);
+			tiposDespesas = DespesaBO.consultarTiposDespesas();
 			session.put("despesas", despesas);
 		} catch (Exception e) {
 			mensagem = e.getMessage();

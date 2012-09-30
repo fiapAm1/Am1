@@ -24,7 +24,51 @@ import br.com.am.model.Titulo;
  *
  */
 public class TituloDAO implements TituloDAOInterface {
+	
+	@Override
+	public Titulo consultarTitulo(int numeroTitulo) {
+		
+		//Conexão
+		Connection conn = ConnectionFactory.getConnectionOracle();
+		
+		//Comunicação
+		String sql = "SELECT NR_TITULO, NR_PROCESSO, NR_AGENCIA_CEDENTE, DT_DOCUMENTO, DT_VENCIMENTO, VL_DOCUMENTO " +
+				     "FROM AM_TITULO WHERE NR_TITULO = ?";
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		Titulo titulo = null;
+		
+		try {
+			ps = conn.prepareStatement(sql);
+			ps.setInt(1, numeroTitulo);
+			
+			rs = ps.executeQuery();
+			
+			if(rs.next()) {
+				
+				titulo = new Titulo();
+				titulo.setNumeroTitulo(rs.getInt("NR_TITULO"));
+				
+				Processo processo = ProcessoBO.consultarProcesso(rs.getInt("NR_PROCESSO"));
+				titulo.setProcesso(processo);
+				
+				titulo.setAgenciaCedente(rs.getLong("NR_AGENCIA_CEDENTE"));
+				titulo.setDataDocumento(rs.getDate("DT_DOCUMENTO"));
+				titulo.setDataVencimento(rs.getDate("DT_VENCIMENTO"));
+				titulo.setValorDocumento(rs.getDouble("VL_DOCUMENTO"));
+				
+			}
+			
+		} catch(SQLException e) {
+			e.printStackTrace();
+		} finally {
+			ConnectionFactory.close(conn, ps, rs);
+		}
+		
+		return titulo;
+	}
 
+	
 	@Override
 	public List<Titulo> consultarTitulos(int numeroProcesso) {
 		
@@ -77,10 +121,11 @@ public class TituloDAO implements TituloDAOInterface {
 		Connection conn = ConnectionFactory.getConnectionOracle();
 		
 		//Comunicação
-		String sql = "SELECT NR_TITULO, NR_PROCESSO, NR_AGENCIA_CEDENTE, DT_DOCUMENTO, DT_VENCIMENTO, VL_DOCUMENTO " +
-				     "FROM AM_TITULO" +
-				     "WHERE NR_PROCESSO = ?" +
-				     "AND NOT EXISTS (SELECT NR_TITULO FROM AM_TITULO_PAGO WHERE AM_TITULO.NR_TITULO = AM_TITULO_PAGO.NR_TITULO);";
+		String sql = "SELECT t.NR_TITULO, NR_PROCESSO, NR_AGENCIA_CEDENTE, DT_DOCUMENTO, DT_VENCIMENTO, VL_DOCUMENTO " +
+				     "FROM AM_TITULO t " +
+				     "LEFT OUTER JOIN AM_TITULO_PAGO tp ON tp.NR_TITULO = t.NR_TITULO " +
+				     "WHERE tp.NR_TITULO IS NULL " +
+				     "AND NR_PROCESSO = ?";
 		PreparedStatement ps = null;
 		ResultSet rs = null;
 		Titulo tituloPendente = null;

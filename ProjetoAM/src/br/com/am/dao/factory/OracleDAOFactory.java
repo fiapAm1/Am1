@@ -11,6 +11,7 @@ import br.com.am.dao.TipoCausaDAO;
 import br.com.am.dao.TipoCobrancaDAO;
 import br.com.am.dao.TipoDespesaDAO;
 import br.com.am.dao.TituloDAO;
+import br.com.am.dao.TituloPagoDAO;
 import br.com.am.dao.interfaces.AdvogadoDAOInterface;
 import br.com.am.dao.interfaces.ClienteDAOInterface;
 import br.com.am.dao.interfaces.DespesaDAOInterface;
@@ -22,6 +23,7 @@ import br.com.am.dao.interfaces.TipoCausaDAOInterface;
 import br.com.am.dao.interfaces.TipoCobrancaDAOInterface;
 import br.com.am.dao.interfaces.TipoDespesaDAOInterface;
 import br.com.am.dao.interfaces.TituloDAOInterface;
+import br.com.am.dao.interfaces.TituloPagoDAOInterface;
 
 
 /**
@@ -87,5 +89,11 @@ public class OracleDAOFactory extends DAOFactory{
 	public TituloDAOInterface getTituloDAO() {
 		return new TituloDAO();
 	}
+	
+	@Override
+	public TituloPagoDAOInterface getTituloPagoDAO() {
+		return new TituloPagoDAO();
+	}
+	
 
 }

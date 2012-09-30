@@ -11,6 +11,7 @@ import br.com.am.dao.interfaces.TipoCausaDAOInterface;
 import br.com.am.dao.interfaces.TipoCobrancaDAOInterface;
 import br.com.am.dao.interfaces.TipoDespesaDAOInterface;
 import br.com.am.dao.interfaces.TituloDAOInterface;
+import br.com.am.dao.interfaces.TituloPagoDAOInterface;
 
 /**
  * 
@@ -63,5 +64,7 @@ public abstract class DAOFactory {
 	public abstract TarefaDAOInterface getTarefaDAO();
 	
 	public abstract TituloDAOInterface getTituloDAO();
+	
+	public abstract TituloPagoDAOInterface getTituloPagoDAO();
 
 }

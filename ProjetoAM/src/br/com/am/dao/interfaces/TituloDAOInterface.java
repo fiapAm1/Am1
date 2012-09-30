@@ -13,6 +13,8 @@ import br.com.am.model.Titulo;
  */
 public interface TituloDAOInterface {
 	
+	public Titulo consultarTitulo(int numeroTitulo);
+	
 	public List<Titulo> consultarTitulos(int numeroProcesso);
 	
 	public List<Titulo> consultarTitulosPendentes(int numeroProcesso);

@@ -17,6 +17,6 @@ public interface TituloPagoDAOInterface {
 	
 	public void registrarTituloPago(TituloPago tituloPago);
 	
-	public List<TituloPago> consultarTitulosPagosPorProcesso();
+	public List<TituloPago> consultarTitulosPagosPorProcesso(int numeroProcesso);
 
 }

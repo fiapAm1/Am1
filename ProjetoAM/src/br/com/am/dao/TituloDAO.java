@@ -70,4 +70,51 @@ public class TituloDAO implements TituloDAOInterface {
 		return titulos;
 	}
 
+	@Override
+	public List<Titulo> consultarTitulosPendentes(int numeroProcesso) {
+		
+		//Conexão
+		Connection conn = ConnectionFactory.getConnectionOracle();
+		
+		//Comunicação
+		String sql = "SELECT NR_TITULO, NR_PROCESSO, NR_AGENCIA_CEDENTE, DT_DOCUMENTO, DT_VENCIMENTO, VL_DOCUMENTO " +
+				     "FROM AM_TITULO" +
+				     "WHERE NR_PROCESSO = ?" +
+				     "AND NOT EXISTS (SELECT NR_TITULO FROM AM_TITULO_PAGO WHERE AM_TITULO.NR_TITULO = AM_TITULO_PAGO.NR_TITULO);";
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		Titulo tituloPendente = null;
+		List<Titulo> titulosPendentes = new ArrayList<Titulo>();
+		
+		try {
+			ps = conn.prepareStatement(sql);
+			ps.setInt(1, numeroProcesso);
+			
+			rs = ps.executeQuery();
+			
+			while(rs.next()) {
+				
+				tituloPendente = new Titulo();
+				tituloPendente.setNumeroTitulo(rs.getInt("NR_TITULO"));
+				
+				Processo processo = ProcessoBO.consultarProcesso(rs.getInt("NR_PROCESSO"));
+				tituloPendente.setProcesso(processo);
+				
+				tituloPendente.setAgenciaCedente(rs.getLong("NR_AGENCIA_CEDENTE"));
+				tituloPendente.setDataDocumento(rs.getDate("DT_DOCUMENTO"));
+				tituloPendente.setValorDocumento(rs.getDouble("VL_DOCUMENTO"));
+				
+				titulosPendentes.add(tituloPendente);
+			}
+			
+		} catch(SQLException e) {
+			e.printStackTrace();
+		} finally {
+			ConnectionFactory.close(conn, ps, rs);
+		}
+		
+		return titulosPendentes;
+
+	}
+
 }

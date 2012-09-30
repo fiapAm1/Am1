@@ -15,6 +15,8 @@ import br.com.am.model.TituloPago;
  */
 public interface TituloPagoDAOInterface {
 	
-	public void registrarTituloPago(List<TituloPago> titulosPagos);
+	public void registrarTituloPago(TituloPago tituloPago);
+	
+	public List<TituloPago> consultarTitulosPagosPorProcesso();
 
 }

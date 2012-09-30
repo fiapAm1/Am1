@@ -12,34 +12,23 @@
 </head>
 <body>
 	<s:form id="form_RegistrarPagamento" 
+		  cssclass="formee"
 		  action="registrarPagamento" 
 		  method="post" 
-		  class="formee"
 		  theme="simple">
 		<fieldset>
 			<legend>Registro de Pagamento por Processo</legend>
-			<div class="grid-3-12">
-				<div class="grid-12-12">
-					<select id="select_Cobranca">
-						<option>Selecione um tipo de cobrança...</option>
-						<option>Mensal</option>
-						<option>Trimestral</option>
-						<option>Semestral</option>
-					</select>
-				</div>
-			</div>
-			<div class="grid-5-12">
+			<div class="grid-8-12">
 				<div class="grid-3-12">
-					<label for="input_CodigoProcesso">Código processo:</label>
+					<s:label value="Código do processo:" for="textfield_Codigo" />
 				</div>
-				<div class="grid-5-12">
-					<input id="input_CodigoProcesso" type="text" />
+				<div class="grid-4-12">
+					<s:textfield id="textfield_Codigo" name="" />
 				</div>
-				<div class="grid-2-12">
-					<input id="input_Pesquisar" 
-						   type="button" 
-						   value="Pesquisar" 
-						   onclick="javascript: void(0);"/>
+				<div class="grid-3-12">
+				<s:submit id="submit_Pesquisar"
+						  value="Pesquisar"
+						  action=""/>
 				</div>
 			</div>
 			<div class="grid-12-12 lawyer-table">

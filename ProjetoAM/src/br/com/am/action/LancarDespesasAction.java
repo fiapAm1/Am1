@@ -1,6 +1,7 @@
 package br.com.am.action;
 
 import java.util.ArrayList;
+
 import java.util.List;
 
 import org.apache.struts2.convention.annotation.Action;
@@ -10,7 +11,6 @@ import br.com.am.action.enuns.PaginaEnum;
 import br.com.am.bo.DespesaBO;
 import br.com.am.model.Despesa;
 import br.com.am.model.Processo;
-import br.com.am.model.SelectObject;
 import br.com.am.model.TipoDespesa;
 
 /**
@@ -29,7 +29,7 @@ public class LancarDespesasAction extends GenericAction{
 	
 	private List<Despesa> despesas = new ArrayList<Despesa>();
 	private List<TipoDespesa> tiposDespesas = new ArrayList<TipoDespesa>();
-	private Despesa despesa;
+	private Despesa despesa = new Despesa();
 	
 	private String jSonTipoDespesa;
 	private String jSonValorDespesa;
@@ -47,7 +47,7 @@ public class LancarDespesasAction extends GenericAction{
 			@Result(location="/erro.jsp", name="erro")
 	})
 	public String forwardLancarDespesa(){
-		if(PaginaEnum.LANCAR_DESPESA.getDescricao().equals(paginaDirecionar)){
+		if(PaginaEnum.LANCAR_DESPESA.getDescricao().equals(getPaginaDirecionar())){
 			tiposDespesas = DespesaBO.consultarTiposDespesas();
 			return PaginaEnum.LANCAR_DESPESA.getDescricao();
 		} else {
@@ -67,12 +67,19 @@ public class LancarDespesasAction extends GenericAction{
 	})
 	public String cadastrarDespesa(){
 		try {
+			numeroProcesso = (Integer) session.get("numeroProcesso");
+			despesa.getProcesso().setNumeroProcesso(numeroProcesso);
 			DespesaBO.lancarDespesa(despesa);
+			
+			pesquisarProcessoDespesas();
+			
+			limparCampos();
+			return PaginaEnum.LANCAR_DESPESA.getDescricao();
 		} catch (Exception e) {
-			mensagem = e.getMessage();
+			setMensagem(e.getMessage());
 			e.printStackTrace();
+			return PaginaEnum.ERRO.getDescricao();
 		}
-		return PaginaEnum.LANCAR_DESPESA.getDescricao();
 	}
 	
 	/**
@@ -87,12 +94,18 @@ public class LancarDespesasAction extends GenericAction{
 	})
 	public String alterarDespesa(){
 		try {
+			despesa.setCodigoLancamento((Integer)session.get("codigoLancamento"));
 			DespesaBO.atualizarDespesa(despesa);
+			
+			pesquisarProcessoDespesas();
+			
+			limparCampos();
+			return PaginaEnum.LANCAR_DESPESA.getDescricao();
 		} catch (Exception e) {
-			mensagem = e.getMessage();
+			setMensagem(e.getMessage());
 			e.printStackTrace();
+			return PaginaEnum.ERRO.getDescricao();
 		}
-		return PaginaEnum.LANCAR_DESPESA.getDescricao();
 	}
 	
 	/**
@@ -107,12 +120,18 @@ public class LancarDespesasAction extends GenericAction{
 	})
 	public String excluirDespesa(){
 		try {
+			despesa.setCodigoLancamento((Integer)session.get("codigoLancamento"));
 			DespesaBO.deletarDespesa(despesa.getCodigoLancamento());
+			
+			pesquisarProcessoDespesas();
+			
+			limparCampos();
+			return PaginaEnum.LANCAR_DESPESA.getDescricao();
 		} catch (Exception e) {
-			mensagem = e.getMessage();
+			setMensagem(e.getMessage());
 			e.printStackTrace();
+			return PaginaEnum.ERRO.getDescricao();
 		}
-		return PaginaEnum.LANCAR_DESPESA.getDescricao();
 	}
 	
 	/**
@@ -127,17 +146,23 @@ public class LancarDespesasAction extends GenericAction{
 	})
 	public String pesquisarProcessoDespesas(){
 		try {
-			processos = new ArrayList<Processo>();
-			processos.add(DespesaBO.consultarProcesso(numeroProcesso));
-			despesas = DespesaBO.consultarDespesasPorProcesso(numeroProcesso);
-			valorTotalDespesas = DespesaBO.somarDespesaPorProcesso(numeroProcesso);
-			tiposDespesas = DespesaBO.consultarTiposDespesas();
-			session.put("despesas", despesas);
+			Processo processo = DespesaBO.consultarProcesso(numeroProcesso);
+			if(processo != null && processo.getNumeroProcesso() >0){
+				processos = new ArrayList<Processo>();
+				processos.add(processo);
+				despesas = new ArrayList<Despesa>();
+				despesas = DespesaBO.consultarDespesasPorProcesso(numeroProcesso);
+				valorTotalDespesas = DespesaBO.somarDespesaPorProcesso(numeroProcesso);
+				tiposDespesas = DespesaBO.consultarTiposDespesas();
+				session.put("numeroProcesso", numeroProcesso);
+				session.put("despesas", despesas);
+			}
+			return PaginaEnum.LANCAR_DESPESA.getDescricao();
 		} catch (Exception e) {
-			mensagem = e.getMessage();
+			setMensagem(e.getMessage());
 			e.printStackTrace();
+			return PaginaEnum.ERRO.getDescricao();
 		}
-		return PaginaEnum.LANCAR_DESPESA.getDescricao();
 	}
 	
 	/**
@@ -151,13 +176,15 @@ public class LancarDespesasAction extends GenericAction{
 					"despesaLocalizada", "processos, " +
 					"valorTotalDespesas, numeroProcesso, despesas, " +
 					"tiposDespesas, despesa, codigoLancamento"
-			})
+			}),
+			@Result(location="/erro.jsp", name="erro")
 	})
 	public String localizarDespesa(){
-		despesas = (List<Despesa>)session.get("despesas");
+		despesas = (List<Despesa>) session.get("despesas");
 		for(Despesa d: despesas){
 			if(d.getCodigoLancamento() == codigoLancamento){
 				despesa = d;
+				session.put("codigoLancamento", codigoLancamento);
 				break;
 			}
 		}
@@ -165,6 +192,31 @@ public class LancarDespesasAction extends GenericAction{
 		jSonValorDespesa = String.valueOf(despesa.getValorDespesa());
 		jSonObservacaoDespesa = despesa.getObservacao();
 		return PaginaEnum.LANCAR_DESPESA.getDescricao();
+	}
+	
+	/**
+	 * Método para reinicializar atributos da tela.
+	 * @author JDGR²
+	 * @since 30/09/2012
+	 */
+	private void limparCampos(){
+		tiposDespesas = DespesaBO.consultarTiposDespesas();
+		codigoLancamento = null;
+		despesa = new Despesa();
+		jSonTipoDespesa = "";
+		jSonValorDespesa = null;
+		jSonObservacaoDespesa = null;
+	}
+	
+	/**
+	 * Método para validar campos obrigatórios.
+	 * @author JDGR²
+	 * @since 30/09/2012
+	 * @return
+	 */
+	private boolean validarCampos(){
+		//TODO implementar
+		return true;
 	}
 	
 	public Despesa getDespesa() {

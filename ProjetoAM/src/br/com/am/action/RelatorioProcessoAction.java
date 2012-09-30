@@ -41,9 +41,9 @@ public class RelatorioProcessoAction extends GenericAction{
 			@Result(location="/erro.jsp", name="erro")
 	})
 	public String forwardRelatorio(){
-		if(PaginaEnum.EMITIR_RELATORIO_AUDIENCIA.getDescricao().equals(paginaDirecionar)){
+		if(PaginaEnum.EMITIR_RELATORIO_AUDIENCIA.getDescricao().equals(getPaginaDirecionar())){
 			return PaginaEnum.EMITIR_RELATORIO_AUDIENCIA.getDescricao();
-		} else if(PaginaEnum.EMITIR_RELATORIO_HONORARIO.getDescricao().equals(paginaDirecionar)){
+		} else if(PaginaEnum.EMITIR_RELATORIO_HONORARIO.getDescricao().equals(getPaginaDirecionar())){
 			tarefas = carregarTarefas();
 			return PaginaEnum.EMITIR_RELATORIO_HONORARIO.getDescricao();
 		}else {

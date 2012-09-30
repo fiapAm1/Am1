@@ -9,29 +9,27 @@ import org.apache.struts2.convention.annotation.Result;
 import br.com.am.action.enuns.PaginaEnum;
 import br.com.am.bo.TituloBO;
 import br.com.am.model.Processo;
-import br.com.am.model.TipoCobranca;
 import br.com.am.model.Titulo;
 import br.com.am.model.TituloPago;
 
 /**
  * Class Action RegistrarPagamento
- * @author Ricardo
+ * @author JDGR²
  * @since 27/09/2012
  */
 public class RegistrarPagamentoAction extends GenericAction{
 
 	private static final long serialVersionUID = -1053449491716658470L;
 	
-	private List<Processo> processos;
-	private List<TipoCobranca> tiposCobranca;
-	private List<Titulo> titulos;
-	private List<TituloPago> titulosPagos;
+	private List<Processo> processos = new ArrayList<Processo>();
+	private List<Titulo> titulos = new ArrayList<Titulo>();
+	private List<TituloPago> titulosPagos = new ArrayList<TituloPago>();
 	
-	private Processo processo;
+	private Titulo titulo;
 	
 	/**
 	 * Action que direciona para página de registro de pagamento.
-	 * @author Ricardo
+	 * @author JDGR²
 	 * @return String
 	 * @since 27/09/2012
 	 */
@@ -40,8 +38,7 @@ public class RegistrarPagamentoAction extends GenericAction{
 			@Result(location="/erro.jsp", name="erro")
 	})
 	public String forwardRegistrarPagamento(){
-		if(PaginaEnum.REGISTRAR_PAGAMENTO.getDescricao().equals(paginaDirecionar)){
-			tiposCobranca = TituloBO.consultarTiposCobrancas();
+		if(PaginaEnum.REGISTRAR_PAGAMENTO.getDescricao().equals(getPaginaDirecionar())){
 			return PaginaEnum.REGISTRAR_PAGAMENTO.getDescricao();
 		} else {
 			return PaginaEnum.ERRO.getDescricao();
@@ -50,7 +47,7 @@ public class RegistrarPagamentoAction extends GenericAction{
 	
 	/**
 	 * Action que registra pagamento de um título.
-	 * @author Ricardo
+	 * @author JDGR²
 	 * @since 27/09/2012
 	 * @return String
 	 */
@@ -59,8 +56,17 @@ public class RegistrarPagamentoAction extends GenericAction{
 			@Result(location="/erro.jsp", name="erro")
 	})
 	public String registrarPagamento(){
-		//TODO implementar
-		return PaginaEnum.REGISTRAR_PAGAMENTO.getDescricao();
+		try {
+			TituloBO.registrarTituloPago(titulo);
+			
+			pesquisarProcessos();
+			
+			return PaginaEnum.REGISTRAR_PAGAMENTO.getDescricao();
+		} catch (Exception e) {
+			setMensagem(e.getMessage());
+			e.printStackTrace();
+			return PaginaEnum.ERRO.getDescricao();
+		}
 	}
 	
 	/**
@@ -69,72 +75,32 @@ public class RegistrarPagamentoAction extends GenericAction{
 	 * @since 27/09/2012
 	 * @return String
 	 */
-	@Action(value="pesquisarProcessos", results={
+	@Action(value="pesquisarTitulosProcesso", results={
 			@Result(location="/pages/pagamento/registrarPagamento.jsp", name="registrarPagamento"),
 			@Result(location="/erro.jsp", name="erro")
 	})
 	public String pesquisarProcessos(){
-		//TODO implementar
-		return PaginaEnum.REGISTRAR_PAGAMENTO.getDescricao();
+		try {
+			Processo processo = TituloBO.consultarProcesso(titulo.getProcesso().getNumeroProcesso());
+			if(processo != null){
+				processos.add(processo);
+				titulos = TituloBO.consultarTitulos(processo.getNumeroProcesso());
+				titulosPagos = TituloBO.consultarTitulosPagosPorProcesso(processo.getNumeroProcesso());
+			}
+			return PaginaEnum.REGISTRAR_PAGAMENTO.getDescricao();
+		} catch (Exception e) {
+			setMensagem(e.getMessage());
+			e.printStackTrace();
+			return PaginaEnum.ERRO.getDescricao();
+		}
 	}
 	
-	/**
-	 * Método para carregar os títulos pagos de um processo.
-	 * @author Ricardo
-	 * @since 27/09/2012
-	 * @return List<TituloPago>
-	 */
-	private List<TituloPago> carregarTitulosPagos(){
-		//TODO implementar
-		return new ArrayList<TituloPago>();
-	}
-	
-	/**
-	 * Método para carregar os títulos de um processo.
-	 * @author Ricardo
-	 * @since 27/09/2012
-	 * @return List<Titulo>
-	 */
-	private List<Titulo> carregarTitulos(){
-		//TODO implementar
-		return TituloBO.consultarTitulos(processo.getNumeroProcesso());
-	}
-	
-	/**
-	 * Método para carregar os tipos de cobranças.
-	 * @author Ricardo
-	 * @since 27/09/2012
-	 * @return List<TipoCobranca>
-	 */
-	private List<TipoCobranca> carregarTiposCobrancas(){
-		return TituloBO.consultarTiposCobrancas();
-	}
-	
-	/**
-	 * Método para carregar processos.
-	 * @author Ricardo
-	 * @since 27/09/2012
-	 * @return List<Processo>
-	 */
-	private List<Processo> carregarProcessos(){
-		//TODO implementar
-		return new ArrayList<Processo>();
-	}
-
 	public List<Processo> getProcessos() {
 		return processos;
 	}
 
 	public void setProcessos(List<Processo> processos) {
 		this.processos = processos;
-	}
-
-	public List<TipoCobranca> getTiposCobranca() {
-		return tiposCobranca;
-	}
-
-	public void setTiposCobranca(List<TipoCobranca> tiposCobranca) {
-		this.tiposCobranca = tiposCobranca;
 	}
 
 	public List<Titulo> getTitulos() {
@@ -153,11 +119,11 @@ public class RegistrarPagamentoAction extends GenericAction{
 		this.titulosPagos = titulosPagos;
 	}
 
-	public Processo getProcesso() {
-		return processo;
+	public Titulo getTitulo() {
+		return titulo;
 	}
 
-	public void setProcesso(Processo processo) {
-		this.processo = processo;
+	public void setTitulo(Titulo titulo) {
+		this.titulo = titulo;
 	}
 }

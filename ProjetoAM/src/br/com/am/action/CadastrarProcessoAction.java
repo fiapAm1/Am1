@@ -53,14 +53,14 @@ public class CadastrarProcessoAction extends GenericAction{
 			@Result(location="/erro.jsp", name="erro")
 	})
 	public String forwardCadastrarProcesso(){
-		if(PaginaEnum.ALTERAR_PROCESSO.getDescricao().equals(paginaDirecionar)){
+		if(PaginaEnum.ALTERAR_PROCESSO.getDescricao().equals(getPaginaDirecionar())){
 			carregarListas();
 			processo = carregarProcesso();
 			return PaginaEnum.ALTERAR_PROCESSO.getDescricao();
-		} else if(PaginaEnum.CADASTRAR_PROCESSO.getDescricao().equals(paginaDirecionar)){
+		} else if(PaginaEnum.CADASTRAR_PROCESSO.getDescricao().equals(getPaginaDirecionar())){
 			carregarListas();
 			return PaginaEnum.CADASTRAR_PROCESSO.getDescricao();
-		} else if(PaginaEnum.LISTAR_PROCESSO.getDescricao().equals(paginaDirecionar)){
+		} else if(PaginaEnum.LISTAR_PROCESSO.getDescricao().equals(getPaginaDirecionar())){
 			//carregarListas();
 			//processos = carregarProcessos();
 			return PaginaEnum.LISTAR_PROCESSO.getDescricao();

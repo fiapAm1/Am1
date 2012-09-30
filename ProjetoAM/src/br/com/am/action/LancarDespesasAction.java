@@ -1,13 +1,10 @@
 package br.com.am.action;
 
-import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.struts2.convention.annotation.Action;
 import org.apache.struts2.convention.annotation.Result;
-
-import com.opensymphony.xwork2.ActionContext;
 
 import br.com.am.action.enuns.PaginaEnum;
 import br.com.am.bo.DespesaBO;
@@ -28,10 +25,15 @@ public class LancarDespesasAction extends GenericAction{
 	private List<Processo> processos = new ArrayList<Processo>();
 	private Double valorTotalDespesas;
 	private Integer numeroProcesso;
+	private Integer codigoLancamento;
 	
-	private List<SelectObject> despesas = new ArrayList<SelectObject>();
+	private List<Despesa> despesas = new ArrayList<Despesa>();
 	private List<TipoDespesa> tiposDespesas = new ArrayList<TipoDespesa>();
 	private Despesa despesa;
+	
+	private String jSonTipoDespesa;
+	private String jSonValorDespesa;
+	private String jSonObservacaoDespesa;
 	
 	
 	/**
@@ -85,7 +87,7 @@ public class LancarDespesasAction extends GenericAction{
 	})
 	public String alterarDespesa(){
 		try {
-			//TODO implementar
+			DespesaBO.atualizarDespesa(despesa);
 		} catch (Exception e) {
 			mensagem = e.getMessage();
 			e.printStackTrace();
@@ -105,7 +107,7 @@ public class LancarDespesasAction extends GenericAction{
 	})
 	public String excluirDespesa(){
 		try {
-			//TODO implementar
+			DespesaBO.deletarDespesa(despesa.getCodigoLancamento());
 		} catch (Exception e) {
 			mensagem = e.getMessage();
 			e.printStackTrace();
@@ -127,8 +129,9 @@ public class LancarDespesasAction extends GenericAction{
 		try {
 			processos = new ArrayList<Processo>();
 			processos.add(DespesaBO.consultarProcesso(numeroProcesso));
-			despesas = convertToListaSelectObject(DespesaBO.consultarDespesasPorProcesso(numeroProcesso));
+			despesas = DespesaBO.consultarDespesasPorProcesso(numeroProcesso);
 			valorTotalDespesas = DespesaBO.somarDespesaPorProcesso(numeroProcesso);
+			session.put("despesas", despesas);
 		} catch (Exception e) {
 			mensagem = e.getMessage();
 			e.printStackTrace();
@@ -137,36 +140,30 @@ public class LancarDespesasAction extends GenericAction{
 	}
 	
 	/**
-	 * Action que localizar despesa selecionada.
+	 * Método que localizar despesa selecionada.
 	 * @author JDGR²
 	 * @return String
 	 * @since 18/09/2012
 	 */
+	@Action(value="localizarDespesa", results={
+			@Result(name="lancar", type="json", params={
+					"despesaLocalizada", "processos, " +
+					"valorTotalDespesas, numeroProcesso, despesas, " +
+					"tiposDespesas, despesa, codigoLancamento"
+			})
+	})
 	public String localizarDespesa(){
-		PrintWriter pw = 
-		for(SelectObject so: despesas){
-			if(so.getSelected()){
-				despesa = (Despesa) so.getSource();
+		despesas = (List<Despesa>)session.get("despesas");
+		for(Despesa d: despesas){
+			if(d.getCodigoLancamento() == codigoLancamento){
+				despesa = d;
+				break;
 			}
 		}
+		jSonTipoDespesa = String.valueOf(despesa.getTipoDespesa().getCodigoDespesa());
+		jSonValorDespesa = String.valueOf(despesa.getValorDespesa());
+		jSonObservacaoDespesa = despesa.getObservacao();
 		return PaginaEnum.LANCAR_DESPESA.getDescricao();
-	}
-	
-	/**
-	 * Método para passar objetos depesa para uma lista de SelectObject
-	 * @author JDGR²
-	 * @since 29/09/2012
-	 * @return List<SelectObject>
-	 */
-	private List<SelectObject> convertToListaSelectObject(List<Despesa> despesas){
-		List<SelectObject> list = new ArrayList<SelectObject>();
-		for(Despesa despesa : despesas){
-			SelectObject so = new SelectObject();
-			so.setSelected(false);
-			so.setSource(despesa);
-			list.add(so);
-		}
-		return list;
 	}
 	
 	public Despesa getDespesa() {
@@ -174,14 +171,6 @@ public class LancarDespesasAction extends GenericAction{
 	}
 	public void setDespesa(Despesa despesa) {
 		this.despesa = despesa;
-	}
-
-	public List<SelectObject> getDespesas() {
-		return despesas;
-	}
-
-	public void setDespesas(List<SelectObject> despesas) {
-		this.despesas = despesas;
 	}
 
 	public List<Processo> getProcessos() {
@@ -214,6 +203,46 @@ public class LancarDespesasAction extends GenericAction{
 
 	public void setValorTotalDespesas(Double valorTotalDespesas) {
 		this.valorTotalDespesas = valorTotalDespesas;
+	}
+
+	public String getjSonTipoDespesa() {
+		return jSonTipoDespesa;
+	}
+
+	public void setjSonTipoDespesa(String jSonTipoDespesa) {
+		this.jSonTipoDespesa = jSonTipoDespesa;
+	}
+
+	public String getjSonValorDespesa() {
+		return jSonValorDespesa;
+	}
+
+	public void setjSonValorDespesa(String jSonValorDespesa) {
+		this.jSonValorDespesa = jSonValorDespesa;
+	}
+
+	public String getjSonObservacaoDespesa() {
+		return jSonObservacaoDespesa;
+	}
+
+	public void setjSonObservacaoDespesa(String jSonObservacaoDespesa) {
+		this.jSonObservacaoDespesa = jSonObservacaoDespesa;
+	}
+
+	public List<Despesa> getDespesas() {
+		return despesas;
+	}
+
+	public void setDespesas(List<Despesa> despesas) {
+		this.despesas = despesas;
+	}
+
+	public Integer getCodigoLancamento() {
+		return codigoLancamento;
+	}
+
+	public void setCodigoLancamento(Integer codigoLancamento) {
+		this.codigoLancamento = codigoLancamento;
 	}
 	
 }
